@@ -1204,6 +1204,95 @@ margin-bottom: 18px;
     /* 프리뷰 상태 표시 */
     html[data-access="preview"] .preview-banner{display:block;}
 
+
+/* ===== OBSERVER FLOAT (NON-INVASIVE) ===== */
+#observer-float{
+  position: fixed;
+
+ right: calc((100vw - 1200px) / 2 - 270px);
+ top: 120px;
+transform: none;
+
+  width: 172px;
+  z-index: 9999;
+
+
+  background: linear-gradient(180deg, rgba(4,18,24,.92), rgba(3,10,16,.85));
+  border: 1px solid rgba(227,90,90,.55);
+  border-radius: 16px;
+  padding: 12px 12px 10px;
+
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.70),
+    0 0 22px rgba(227,90,90,.18);
+  backdrop-filter: blur(10px);
+  font-size: 11px;
+  letter-spacing: .06em;
+}
+#observer-float .obs-title{
+  font-family: "Cormorant Garamond","Noto Serif KR",serif;
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-align:center;
+  color: rgba(255,240,220,.86);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+#observer-float .obs-row{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  padding: 6px 6px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.14);
+  border: 1px solid rgba(216,178,106,.18);
+}
+#observer-float .obs-row b{
+  color: #ff4c4c;
+  text-shadow: 0 0 10px rgba(255,76,76,.25);
+}
+#observer-float .obs-btns{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+#observer-float button{
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(227,90,90,.55);
+  background: rgba(227,90,90,.12);
+  color: rgba(243,239,231,.92);
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: .08em;
+}
+#observer-float button:hover{
+  transform: translateY(-1px);
+  background: rgba(227,90,90,.18);
+}
+#observer-float .obs-foot{
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(216,178,106,.18);
+  text-align:center;
+  color: rgba(243,239,231,.65);
+  font-size: 10px;
+  letter-spacing: .14em;
+}
+#observer-float .obs-timer{
+  display:block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: rgba(255,240,220,.88);
+}
+@media (max-width: 980px){
+  /* 작은 화면에서도 계속 보이게: 크기만 살짝 축소 */
+  #observer-float{ right: 10px; width: 156px; }
+}
+
 </style>
 </head>
 <body>
@@ -1308,7 +1397,9 @@ margin-bottom: 18px;
 
 
 
-    <!-- 몬스터 도감 -->
+
+
+<!-- 몬스터 도감 -->
     <section id="monsters">
       <h2 class="section-title">MONSTER LIST</h2>
       <p class="section-sub">
@@ -1651,6 +1742,14 @@ sealBlocks: ["사냥법", "기원"],
   }
 },
 
+<div class="monster-card sealed">
+  <div class="monster-thumb"></div>
+  <div class="monster-info">
+    <div class="monster-name">UNIDENTIFIED</div>
+    <div class="monster-meta">기록 봉인됨</div>
+    <div class="monster-seal">SEALED</div>
+  </div>
+</div>
 
 
   // 필요한 만큼 계속 추가하면 됨
@@ -1708,6 +1807,9 @@ sealBlocks: ["사냥법", "기원"],
         renderMonsters(filter);
       });
     });
+
+
+
 
 
 
@@ -1801,5 +1903,141 @@ document.getElementById("detail-origin").textContent =
         if (restrictedOverlay) { restrictedOverlay.style.display = "none"; restrictedOverlay.setAttribute("aria-hidden","true"); }
       };
   </script>
+
+<!-- OBSERVER FLOAT UI (non-invasive) -->
+<div id="observer-float" aria-label="관측자 패널">
+  <div class="obs-title">OBSERVER</div>
+  <div class="obs-row">
+    <span>안정도</span>
+    <span><b id="obs-stability-float">--</b>%</span>
+  </div>
+  <div class="obs-btns" role="group" aria-label="관측 개입">
+    <button type="button" data-effect="+3">의식 보강</button>
+    <button type="button" data-effect="-5">위험 실험</button>
+    <button type="button" data-effect="+1">기록 정제</button>
+  </div>
+  <div class="obs-foot">
+    NEXT RITUAL
+    <span class="obs-timer" id="ritual-timer-float">--:--:--</span>
+  </div>
+</div>
+
+
+<script>
+/* ===== OBSERVER FLOAT BEHAVIOR (NON-INVASIVE) ===== */
+(function(){
+  const stabMain = document.getElementById('stabilityVal');      // existing HUD
+  const stabFloat = document.getElementById('obs-stability-float');
+  const panel = document.getElementById('observer-float');
+  if(!panel || !stabFloat) return;
+
+  function getStability(){
+    const n = stabMain ? Number(String(stabMain.textContent).replace(/[^0-9.]/g,'')) : NaN;
+    return Number.isFinite(n) ? n : 68;
+  }
+  function setStability(v){
+    const clamped = Math.max(0, Math.min(100, Math.round(v)));
+    if(stabMain) stabMain.textContent = clamped;
+    stabFloat.textContent = clamped;
+  }
+
+  setStability(getStability());
+
+  panel.querySelectorAll('button[data-effect]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const delta = Number(btn.dataset.effect) || 0;
+      setStability(getStability() + delta);
+    });
+  });
+
+  const timer = document.getElementById('ritual-timer-float');
+  if(timer){
+    const next = new Date();
+    next.setHours(24,0,0,0); // next midnight
+    const pad = (x)=>String(x).padStart(2,'0');
+    setInterval(()=>{
+      const diff = Math.max(0, next - new Date());
+      const h = Math.floor(diff/36e5);
+      const m = Math.floor((diff%36e5)/6e4);
+      const s = Math.floor((diff%6e4)/1e3);
+      timer.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    }, 1000);
+  }
+})();
+</script>
+
+
+<style>
+/* === OBSERVER VERTICAL BAR OVERRIDE === */
+#observer-float{
+  position:fixed; right:0; top:120px;
+  width:72px; padding:10px 8px;
+  border-radius:18px 0 0 18px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  z-index:9999;
+}
+#observer-float .obs-title{font-size:11px; letter-spacing:.12em; margin-bottom:4px}
+#observer-float .obs-btns{display:flex; flex-direction:column; gap:8px}
+#observer-float button{padding:6px 4px; font-size:10px}
+.obs-gauge{display:flex; flex-direction:column; align-items:center; gap:6px}
+.gauge-bar{
+  width:18px; height:120px; border-radius:999px; overflow:hidden; position:relative;
+  background:rgba(255,255,255,.08); border:1px solid rgba(227,90,90,.45);
+}
+.gauge-fill{
+  position:absolute; bottom:0; width:100%;
+  background:linear-gradient(180deg, rgba(255,90,90,.95), rgba(255,90,90,.55));
+  box-shadow:0 0 12px rgba(255,90,90,.6);
+}
+.gauge-label{font-size:9px; text-align:center}
+</style>
+
+<script>
+(function(){
+  const host = document.getElementById('observer-float');
+  if(!host) return;
+
+  host.innerHTML = `
+    <div class="obs-title">OBSERVER</div>
+    <div class="obs-gauge">
+      <div class="gauge-bar"><div class="gauge-fill" id="obs-gauge-fill"></div></div>
+      <div class="gauge-label"><span>안정도</span> <b id="obs-stability">74%</b></div>
+    </div>
+    <div class="obs-btns">
+      <button data-effect="+3">의식 보강</button>
+      <button data-effect="-5">위험 실험</button>
+      <button data-effect="+1">기록 정제</button>
+    </div>
+    <div class="obs-foot">
+      <div>NEXT RITUAL</div>
+      <span class="obs-timer" id="ritual-timer"></span>
+    </div>
+  `;
+
+  const stabEl = document.getElementById('obs-stability');
+  const fillEl = document.getElementById('obs-gauge-fill');
+  let stability = parseInt((stabEl.textContent||'74').replace('%',''),10) || 74;
+  fillEl.style.height = stability + '%';
+
+  host.querySelectorAll('button').forEach(b=>{
+    b.onclick = ()=>{
+      stability = Math.max(0, Math.min(100, stability + Number(b.dataset.effect)));
+      stabEl.textContent = stability + '%';
+      fillEl.style.height = stability + '%';
+    };
+  });
+
+  const t=document.getElementById('ritual-timer');
+  if(t){
+    const next=new Date(); next.setHours(24,0,0,0);
+    setInterval(()=>{
+      const d=next-new Date();
+      const h=Math.floor(d/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);
+      t.textContent=`${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    },1000);
+  }
+})();
+</script>
+
 </body>
 </html>
