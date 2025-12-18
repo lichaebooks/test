@@ -1015,7 +1015,161 @@ margin-bottom: 18px;
       from { opacity: 0; transform: translateY(4px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-  </style>
+  
+    /* ===== 접근/프리뷰 연출 ===== */
+    .access-hud{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 18px;
+      margin: 10px 0 0;
+      background: linear-gradient(180deg, rgba(3,10,16,.88), rgba(3,10,16,.55));
+      border: 1px solid rgba(0,255,209,.10);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+    .hud-left{display:flex; gap:12px; align-items:center; flex-wrap:wrap;}
+    .hud-pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(0,255,209,.18);
+      background: rgba(0,255,209,.08);
+      font-size:12px;
+      letter-spacing:.18em;
+    }
+    .hud-item{font-size:12px; color: rgba(243,239,231,.78); letter-spacing:.06em;}
+    .hud-item b{color:#f3efe7;}
+    .hud-cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:9px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,61,141,.28);
+      background: rgba(255,61,141,.10);
+      color:#f3efe7;
+      font-size:12px;
+      letter-spacing:.10em;
+      text-decoration:none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .hud-cta:hover{transform: translateY(-1px); border-color: rgba(255,61,141,.45); background: rgba(255,61,141,.14);}
+
+    .preview-banner{
+      margin: 10px 0 0;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,61,141,.08), rgba(0,0,0,0));
+      border: 1px solid rgba(255,61,141,.14);
+      color: rgba(243,239,231,.86);
+      font-size: 12px;
+      letter-spacing: .04em;
+      display:none;
+    }
+    .preview-banner a{
+      margin-left: 10px;
+      color:#f3efe7;
+      text-decoration:none;
+      border-bottom:1px solid rgba(255,255,255,.18);
+    }
+
+    /* 카드 봉인(프리뷰) */
+    .card.locked{
+      position: relative;
+      overflow: hidden;
+    }
+    .card.locked .card-img{
+      filter: blur(6px) saturate(.7) contrast(.9);
+      transform: scale(1.03);
+    }
+    .card.locked::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(900px 420px at 50% 30%, rgba(255,61,141,.10), rgba(0,0,0,.55));
+      pointer-events:none;
+    }
+    .lock-badge{
+      position:absolute;
+      left:14px;
+      top:14px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,61,141,.22);
+      background: rgba(3,10,16,.78);
+      color: rgba(243,239,231,.90);
+      font-size: 11px;
+      letter-spacing:.18em;
+      z-index:2;
+    }
+    .lock-note{
+      position:absolute;
+      left:14px;
+      right:14px;
+      bottom:14px;
+      padding:12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(3,10,16,.75);
+      color: rgba(243,239,231,.86);
+      font-size: 12px;
+      line-height:1.45;
+      z-index:2;
+    }
+    .lock-note small{display:block; margin-top:6px; color: rgba(243,239,231,.65); letter-spacing:.08em;}
+
+    /* 모달 제한 오버레이 */
+    .restricted-overlay{
+      position:absolute;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: radial-gradient(1100px 700px at 40% 30%, rgba(255,61,141,.12), rgba(0,0,0,.80));
+      backdrop-filter: blur(10px);
+      z-index: 5;
+    }
+    .restricted-box{
+      width:min(520px, 92vw);
+      border-radius: 22px;
+      border:1px solid rgba(255,61,141,.20);
+      background: linear-gradient(180deg, rgba(3,10,16,.92), rgba(3,10,16,.80));
+      padding: 18px 18px 16px;
+      box-shadow: 0 22px 70px rgba(0,0,0,.55);
+      text-align:left;
+    }
+    .restricted-title{
+      font-size: 14px;
+      letter-spacing:.22em;
+      color:#f3efe7;
+      margin-bottom: 10px;
+    }
+    .restricted-desc{
+      font-size: 12px;
+      color: rgba(243,239,231,.78);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .restricted-cta{
+      display:inline-flex;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,61,141,.35);
+      background: rgba(255,61,141,.12);
+      color:#f3efe7;
+      text-decoration:none;
+      font-size:12px;
+      letter-spacing:.12em;
+    }
+
+    /* 프리뷰 상태 표시 */
+    html[data-access="preview"] .preview-banner{display:block;}
+
+</style>
 </head>
 <body>
   <div class="page">
@@ -1028,10 +1182,27 @@ margin-bottom: 18px;
       <nav>
          <a href="#monsters" class="nav-link">몬스터 도감</a>
   <a href="#about-world" class="nav-link">세계관</a>
-  <a href="tumblbug.com/occult_bestiary" target="_blank" class="nav-link">텀블벅</a>
+  <a href="https://tumblbug.com/occult_bestiary" target="_blank" class="nav-link">텀블벅</a>
   <button id="logout-btn" class="nav-link">로그아웃</button>
       </nav>
     </header>
+    <!-- 접근 상태 HUD (공개 프리뷰/후원자) -->
+    <div class="access-hud" id="accessHud" aria-live="polite">
+      <div class="hud-left">
+        <span class="hud-pill" id="accessPill">PUBLIC PREVIEW</span>
+        <span class="hud-item">기록 안정도 <b id="stabilityVal">68</b>%</span>
+        <span class="hud-item">열람 등급 <b id="accessRank">F</b></span>
+      </div>
+      <div class="hud-right">
+        <a class="hud-cta" id="unlockCta" href="https://tumblbug.com/occult_bestiary" target="_blank" rel="noopener">후원으로 해금</a>
+      </div>
+    </div>
+
+    <div class="preview-banner" id="previewBanner" role="note">
+      <b>공개 프리뷰 모드</b> — 일부 기록은 봉인되었거나 훼손된 형태로만 열람됩니다.
+      <a href="https://tumblbug.com/occult_bestiary" target="_blank" rel="noopener">전체 열람 권한 얻기 →</a>
+    </div>
+
 
     <div class="top-divider"></div>
 
@@ -1053,8 +1224,9 @@ margin-bottom: 18px;
 <div class="hero-title-divider"></div>
 
       <p class="hero-description">
-        이 페이지는 오컬트와 판타지 장르 창작을 위한 참고 자료이자, 다양한 전승 속 몬스터를 한눈에 볼 수 있는 디지털 몬스터 백과로, 창작자와 독자가 필요할 때마다 쉽게 찾아볼 수 있도록 구성되었다.
-이곳에 수록된 정보는 세계관 설정, 장르적 아이디어 확장을 위한 기초 자료로 활용할 수 있다.
+        <b>공개 프리뷰</b>는 일부 기록만 노출됩니다.<br>
+        열람 권한이 없는 항목은 <b>봉인</b> 또는 <b>기록 훼손</b> 상태로 표시됩니다.<br>
+        전체 아카이브는 후원자 권한으로만 열람 가능합니다.
       </p>
 
       <div class="hero-actions">
@@ -1091,7 +1263,7 @@ margin-bottom: 18px;
           <strong>DISC ERNE</strong> · 외형·상징·역사를 분리해 해부한다
         </span>
         <span class="hero-tag">
-          <strong>REFORMA</strong> · 네 세계관에 맞게 다시 재구성한다
+          <strong>REFORMA</strong> · 세계관에 맞게 다시 재구성한다
         </span>
       </div>
     </div>
@@ -1191,17 +1363,28 @@ margin-bottom: 18px;
 
         </div>
       </div>
+
+      <!-- 프리뷰 제한 오버레이 -->
+      <div class="restricted-overlay" id="restrictedOverlay" aria-hidden="true">
+        <div class="restricted-box">
+          <div class="restricted-title">기록 봉인</div>
+          <div class="restricted-desc">
+            이 항목은 공개 프리뷰에서 일부만 열람 가능합니다.<br/>
+            후원자 권한으로 전체 기록을 해금하세요.
+          </div>
+          <a class="restricted-cta" href="https://tumblbug.com/occult_bestiary" target="_blank" rel="noopener">후원으로 해금</a>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <!-- SCRIPT ------------------------------------------------------ -->
   <script>
-    /* 로그인 체크 */
-    if (sessionStorage.getItem("isSupporter") !== "1") {
-      window.location.href = "index.html";
-    }
-
- // ----------- 스크롤 / 네비게이션 -----------
+    /* 접근 모드 (후원자/프리뷰) */
+    const isSupporter = sessionStorage.getItem("isSupporter") === "1";
+    document.documentElement.dataset.access = isSupporter ? "full" : "preview";
+    // ----------- 스크롤 / 네비게이션 -----------
    document.getElementById("brand-to-top").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
@@ -1443,9 +1626,13 @@ document.addEventListener("contextmenu", function (e) {
       cardsContainer.innerHTML = "";
       const filtered = monsters.filter(m => filter === "all" ? true : m.category === filter);
 
-      filtered.forEach(monster => {
+      filtered.forEach((monster, i) => {
         const card = document.createElement("article");
         card.className = "card";
+
+        // 공개 프리뷰에서는 일부 항목을 봉인(잠금) 처리
+        const previewLocked = (!isSupporter) && (i >= Math.ceil(filtered.length * 0.4));
+        if (previewLocked) card.classList.add("locked");
 
         card.innerHTML = `
           <img class="card-img" src="${monster.img}" alt="${monster.name}">
@@ -1459,10 +1646,14 @@ document.addEventListener("contextmenu", function (e) {
                 .join("")}
             </div>
           </div>
+        ${previewLocked ? `
+          <div class="lock-badge">SEALED</div>
+          <div class="lock-note">이 기록은 봉인되어 있습니다.<small>후원자 권한으로 전체 열람 가능</small></div>
+        ` : ``}
         `;
 
 
-        card.addEventListener("click", () => openModal(monster));
+        card.addEventListener("click", () => openModal(monster, previewLocked));
         cardsContainer.appendChild(card);
 
       });
@@ -1492,7 +1683,7 @@ document.addEventListener("contextmenu", function (e) {
     const modalType = document.getElementById("modal-type");
     const modalTags = document.getElementById("modal-tags");
     
-    function openModal(monster) {
+    function openModal(monster, restricted=false) {
       modalImage.src = monster.img;
       modalTitle.textContent = monster.name;
       modalType.textContent = monster.type;
@@ -1510,13 +1701,42 @@ document.getElementById("detail-hunt").textContent =
 document.getElementById("detail-origin").textContent =
   monster.description["기원"] || "";
 
+      // 프리뷰 제한: 핵심 문단 훼손/봉인 연출
+      if (restricted && !isSupporter) {
+        const redact = (label) => `⟪기록 훼손⟫ ${label} — 후원자 권한 필요`;
+        document.getElementById("detail-feature").textContent = redact("특징");
+        document.getElementById("detail-hunt").textContent = redact("사냥법");
+        document.getElementById("detail-origin").textContent = redact("기원");
+        if (restrictedOverlay) {
+          restrictedOverlay.style.display = "flex";
+          restrictedOverlay.setAttribute("aria-hidden","false");
+        }
+        // 기록 안정도 하락 연출
+        if (stabilityVal) {
+          const base = parseInt(stabilityVal.textContent || "68", 10);
+          const next = Math.max(32, base - 9);
+          stabilityVal.textContent = String(next);
+        }
+      } else {
+        if (restrictedOverlay) {
+          restrictedOverlay.style.display = "none";
+          restrictedOverlay.setAttribute("aria-hidden","true");
+        }
+      }
+
       modal.classList.add("show");
     }
 
     document.getElementById("modal-close").onclick =
-      () => modal.classList.remove("show");
+      () => { 
+        modal.classList.remove("show");
+        if (restrictedOverlay) { restrictedOverlay.style.display = "none"; restrictedOverlay.setAttribute("aria-hidden","true"); }
+      };
     document.getElementById("modal-backdrop").onclick =
-      () => modal.classList.remove("show");
+      () => { 
+        modal.classList.remove("show");
+        if (restrictedOverlay) { restrictedOverlay.style.display = "none"; restrictedOverlay.setAttribute("aria-hidden","true"); }
+      };
   </script>
 </body>
 </html>
