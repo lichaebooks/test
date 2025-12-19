@@ -280,6 +280,20 @@ position: relative;
   opacity: 0.92;
 }
 
+.hero-message {
+  margin-top: 18px;
+  font-size: 12px;          /* 본문보다 작게 */
+  line-height: 1.6;
+  color: rgba(220, 240, 236, 0.55); /* 과하지 않은 강조 */
+  letter-spacing: 0.02em;
+}
+.hero-message .em {
+  color: rgba(255, 200, 140, 0.85); /* 기존 강조색 계열 */
+  font-weight: 500;               /* bold 아님 */
+}
+
+
+
 .hero-quote {
   font-family: "Cormorant Garamond", serif;
   font-size: 1.35rem;
@@ -1093,6 +1107,24 @@ margin-bottom: 18px;
     }
     .hud-cta:hover{transform: translateY(-1px); border-color: rgba(255,61,141,.45); background: rgba(255,61,141,.14);}
 
+
+.hud-text{font-size:12px; color: rgba(243,239,231,.78); letter-spacing:.06em;}
+    .hud-text b{color:#f3efe7;}
+    .hud-cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:9px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,61,141,.28);
+      background: rgba(255,61,141,.10);
+      color:#f3efe7;
+      font-size:12px;
+      letter-spacing:.10em;
+      text-decoration:none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+
+
+
     .preview-banner{
       margin: 10px 0 0;
       padding: 12px 16px;
@@ -1300,12 +1332,13 @@ transform: none;
     <!-- 헤더 -->
     <header class="topbar">
       <div class="brand" id="brand-to-top">
-        OCCULT BESTIARY
+        OCCULT BESTIARY TEST PAGE
         <span>오컬트 & 판타지 몬스터 백과</span>
       </div>
       <nav>
          <a href="#monsters" class="nav-link">몬스터 도감</a>
   <a href="#about-world" class="nav-link">세계관</a>
+<a href="archive.html" class="nav-link">아카이브</a>
   <a href="https://tumblbug.com/occult_bestiary" target="_blank" class="nav-link">텀블벅</a>
   <button id="logout-btn" class="nav-link">로그아웃</button>
       </nav>
@@ -1315,7 +1348,10 @@ transform: none;
       <div class="hud-left">
         <span class="hud-pill" id="accessPill">PUBLIC PREVIEW</span>
         <span class="hud-item">기록 안정도 <b id="stabilityVal">68</b>%</span>
+<span class="hud-text">기록 복원도 <b id="stabilityVal">32</b>%</span>
         <span class="hud-item">열람 등급 <b id="accessRank">F</b></span>
+
+
       </div>
       <div class="hud-right">
         <a class="hud-cta" id="unlockCta" href="https://tumblbug.com/occult_bestiary" target="_blank" rel="noopener">후원으로 해금</a>
@@ -1348,9 +1384,15 @@ transform: none;
 <div class="hero-title-divider"></div>
 
       <p class="hero-description">
-        <b>공개 프리뷰</b>는 일부 기록만 노출됩니다.<br>
-        열람 권한이 없는 항목은 <b>봉인</b> 또는 <b>기록 훼손</b> 상태로 표시됩니다.<br>
-        전체 아카이브는 후원자 권한으로만 열람 가능합니다.
+        <b>🔓 후원자에게 열리는 전체 기록</b><br>
+✔ 모든 몬스터 카드 <b>제한 없이 열람</b><br>
+
+✔ 특징 · 사냥법 · 기원 <b>전면 해제</b><br>
+
+✔ 분류 필터 및 전체 아카이브 접근<br>
+
+✔ 신규 몬스터 및 기록 <b>업데이트 자동 반영</b><br>
+
       </p>
 
       <div class="hero-actions">
@@ -1363,8 +1405,7 @@ transform: none;
       </div>
 
       <div class="hero-signature">
-        <span class="hero-signature-role">CUSTOS BESTIARII</span>
-        <span class="hero-signature-name">— Lichae</span>
+        <span class="hero-signature-role">⟪ 현재는 일부 기록만 공개된 프리뷰 상태입니다 ⟫</span>
       </div>
     </div>
 
@@ -1390,6 +1431,9 @@ transform: none;
           <strong>REFORMA</strong> · 세계관에 맞게 다시 재구성한다
         </span>
       </div>
+<p class="hero-message">
+※ 이  페이지는 펀딩 기간 동안 임시 공개되는 테스트 페이지입니다.<br>
+펀딩 종료와 함께 테스트 페이지는 폐쇄되며, 이후에는 후원자만 정식 페이지를 통해 접근할 수 있습니다. </p>
     </div>
 
   </div>
@@ -1403,7 +1447,8 @@ transform: none;
     <section id="monsters">
       <h2 class="section-title">MONSTER LIST</h2>
       <p class="section-sub">
-        카드를 클릭하면 상세 정보가 표시된다.
+        ⚠️ 현재 기본 분류만 공개되어 있습니다.<br>
+⚠️ 기원 및 해석 파트는 후원자 공개 예정입니다.<br>
       </p>
 
       <div class="monster-controls">
@@ -1506,6 +1551,22 @@ transform: none;
   </div>
 
   <!-- SCRIPT ------------------------------------------------------ -->
+
+
+<script>
+/* ✅ 해시로 들어왔을 때만: 최초 1회는 즉시 점프(부드러운 스크롤 끔) */
+(function(){
+  if (location.hash) {
+    const root = document.documentElement;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    requestAnimationFrame(() => { root.style.scrollBehavior = prev || ''; });
+  }
+})();
+</script>
+
+
+
   <script>
     /* 접근 모드 (후원자/프리뷰) */
     const isSupporter = sessionStorage.getItem("isSupporter") === "1";
