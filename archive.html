@@ -1231,6 +1231,211 @@ transform: none;
 
 
 
+
+/* --- PATCH: MONSTER FICTION modal --- */
+#fiction-modal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  z-index:10000;
+}
+#fiction-modal.is-open{
+  opacity:1;
+  pointer-events:auto;
+}
+#fiction-modal .fiction-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.72);
+}
+
+#fiction-modal .fiction-panel{
+  position:relative;
+  width:min(94vw, 1100px);
+  height:min(86vh, 720px);
+  background:#050c11;
+  border-radius:18px;
+  border:1px solid rgba(216,178,106,.55);
+  box-shadow:0 20px 60px rgba(0,0,0,.75);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+#fiction-modal .fiction-close{
+  position:absolute;
+  top:14px;
+  left:14px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,0,0,.35);
+  color:#e9e1d6;
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  z-index:2;
+}
+
+#fiction-modal .fiction-head{
+  padding:18px 18px 12px 58px;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+#fiction-modal .fiction-title{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:.02em;
+}
+#fiction-modal .fiction-meta{
+  margin-top:4px;
+  opacity:.75;
+  font-size:14px;
+}
+#fiction-modal .fiction-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:flex-start;
+  justify-content:flex-end;
+}
+#fiction-modal .fiction-tags .tag{
+  padding:6px 10px;
+  border-radius:12px;
+  border:1px solid rgba(0,190,255,.45);
+  color:#bfefff;
+  font-size:12px;
+  background:rgba(0,0,0,.25);
+}
+
+#fiction-modal .fiction-body{
+  flex:1;
+  display:grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap:16px;
+  padding:16px;
+  min-height:0; /* 중요: 우측 스크롤 정상 동작 */
+}
+
+#fiction-modal .fiction-left{ min-height:0; }
+#fiction-modal .fiction-carousel{
+  position:relative;
+  height:100%;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.25);
+}
+#fiction-modal .fiction-viewport{
+  position:absolute;
+  inset:0;
+  display:flex;
+  transition:transform .25s ease;
+}
+#fiction-modal .fiction-slide{
+  min-width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+}
+
+#fiction-modal .fiction-dots{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:12px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  z-index:1;
+}
+#fiction-modal .fiction-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.18);
+  cursor:pointer;
+}
+#fiction-modal .fiction-dot.is-active{
+  background:rgba(255,255,255,.8);
+}
+
+#fiction-modal .fiction-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,0,0,.35);
+  color:#e9e1d6;
+  font-size:22px;
+  cursor:pointer;
+  z-index:1;
+}
+#fiction-modal .fiction-nav.prev{ left:10px; }
+#fiction-modal .fiction-nav.next{ right:10px; }
+
+#fiction-modal .fiction-right{
+  min-height:0;           /* 중요 */
+  overflow:auto;          /* 대표님 요구: 우측 스크롤 */
+  padding-right:6px;
+}
+#fiction-modal .fiction-box{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  background:rgba(0,0,0,.18);
+  padding:14px;
+  margin-bottom:12px;
+}
+#fiction-modal .fiction-box-title{
+  font-weight:700;
+  margin-bottom:10px;
+}
+#fiction-modal .fiction-box-body{
+  white-space:pre-line;
+  opacity:.92;
+  line-height:1.5;
+}
+#fiction-modal .fiction-quotes{
+  margin:0;
+  padding-left:18px;
+  line-height:1.6;
+}
+#fiction-modal .fiction-quotes li{
+  margin:6px 0;
+}
+
+#fiction-modal .fiction-right::-webkit-scrollbar{
+  width: 10px;
+}
+#fiction-modal .fiction-right::-webkit-scrollbar-track{
+  background: rgba(0,0,0,.25);
+  border-radius: 999px;
+}
+#fiction-modal .fiction-right::-webkit-scrollbar-thumb{
+  background: rgba(0,255,209,.28);
+  border: 1px solid rgba(0,255,209,.35);
+  border-radius: 999px;
+}
+#fiction-modal .fiction-right::-webkit-scrollbar-thumb:hover{
+  background: rgba(0,255,209,.40);
+}
+
+
+
+
+
+
 /* --- FIX: RELATED VIDEOS thumbnail sizing (no crop) --- */
 .page-archive .video-thumb{
   position: relative;
@@ -1352,7 +1557,8 @@ transform: none;
       <p class="archive-desc">몬스터 원형과 현대 변주를 함께 보는 ‘참조용 기록’입니다.</p>
 
       <ul class="archive-list">
-        <li>
+        <li class="fiction-tile" data-fiction="dracula" role="button" tabindex="0" aria-label="Dracula 상세 보기">
+
           <div class="archive-item">
             <div class="archive-name">Dracula</div>
             <div class="archive-meta">브램 스토커 · 1897</div>
@@ -1360,7 +1566,8 @@ transform: none;
           <div class="archive-tags"><span class="card-tag">Vampire</span><span class="card-tag">Gothic</span></div>
         </li>
 
-        <li>
+        <li class="fiction-tile" data-fiction="frankenstein" role="button" tabindex="0" aria-label="Frankenstein 상세 보기">
+
           <div class="archive-item">
             <div class="archive-name">Frankenstein</div>
             <div class="archive-meta">메리 셸리 · 1818</div>
@@ -1411,13 +1618,14 @@ transform: none;
         </a>
 
         <a class="video-tile sealed-block" data-seal-label="후원자 전용 링크" href="#" aria-label="봉인된 영상(예시)">
-          <div class="video-thumb"></div>
-          <div class="video-title">⟪봉인⟫ 《악마학: 문장과 의식》</div>
-          <div class="video-meta">심층 강의 · 44m</div>
+          <div class="video-thumb" style="background-image: url('https://img.youtube.com/vi/x2H9lnJbBvk/hqdefault.jpg');"></div>
+          <div class="video-title">⟪봉인⟫ 켄타우로스가 이따위로 생긴 이유</div>
+          <div class="video-meta">판타지 사전 · 15m 20s</div>
         </a>
 
+
         <a class="video-tile sealed-block" data-seal-label="후원자 전용 링크" href="#" aria-label="봉인된 영상(예시)">
-          <div class="video-thumb"></div>
+          <div class="video-thumb" style="background-image:url('https://img.youtube.com/vi/BT3yAp9gu_g/hqdefault.jpg');"></div>
           <div class="video-title">⟪봉인⟫ 레프리콘과 함께한 여름</div>
           <div class="video-meta">필드 리포트 · 16m 4s</div>
         </a>
@@ -1426,7 +1634,7 @@ transform: none;
       <div class="archive-note">
         <div class="archive-note-title">아카이브 운영 방식</div>
         <div class="archive-note-body">
-          공개 프리뷰는 ‘목차·티저’만 제공됩니다. 후원자는 링크와 본문 주해, 각 항목의 교차 참조(도감 카드 ↔ 아카이브)를 해금합니다.
+          공개 프리뷰는 일부만 제공됩니다. 후원자는 (도감 카드 ↔ 아카이브)를 해금할 수 있습니다.
         </div>
       </div>
     </article>
@@ -1744,6 +1952,56 @@ document.addEventListener("contextmenu", function (e) {
 </div>
 <!-- /PATCH: Video Modal -->
 
+
+
+
+
+<!-- PATCH: Fiction Modal -->
+<div id="fiction-modal" aria-hidden="true">
+  <div class="fiction-backdrop" id="fiction-backdrop"></div>
+
+  <div class="fiction-panel" role="dialog" aria-modal="true" aria-labelledby="fiction-title">
+    <button class="fiction-close" id="fiction-close" type="button" aria-label="모달 닫기">×</button>
+
+    <div class="fiction-head">
+      <div class="fiction-head-left">
+        <div class="fiction-title" id="fiction-title">TITLE</div>
+        <div class="fiction-meta" id="fiction-meta">AUTHOR · YEAR</div>
+      </div>
+      <div class="fiction-tags" id="fiction-tags"></div>
+    </div>
+
+    <div class="fiction-body">
+      <div class="fiction-left">
+        <div class="fiction-carousel">
+          <div class="fiction-viewport" id="fiction-viewport"></div>
+          <div class="fiction-dots" id="fiction-dots" aria-label="이미지 선택"></div>
+          <button class="fiction-nav prev" id="fiction-prev" type="button" aria-label="이전 이미지">‹</button>
+          <button class="fiction-nav next" id="fiction-next" type="button" aria-label="다음 이미지">›</button>
+        </div>
+      </div>
+
+      <div class="fiction-right" id="fiction-right">
+        <div class="fiction-box">
+          <div class="fiction-box-title">작품 정보</div>
+          <div class="fiction-box-body" id="fiction-info"></div>
+        </div>
+
+        <div class="fiction-box">
+          <div class="fiction-box-title">명대사</div>
+          <ul class="fiction-quotes" id="fiction-quotes"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /PATCH: Fiction Modal -->
+
+
+
+
+
+
 <script>
 /* FIX: related videos -> modal player (stable) */
 (function(){
@@ -1817,6 +2075,174 @@ const originParam =
   window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeVideo(); });
 })();
 </script>
+
+
+
+<script>
+/* PATCH: monster fiction -> modal (separate from video modal) */
+(function(){
+  const modal = document.getElementById('fiction-modal');
+  if(!modal) return;
+
+  const backdrop = document.getElementById('fiction-backdrop');
+  const closeBtn = document.getElementById('fiction-close');
+
+  const titleEl = document.getElementById('fiction-title');
+  const metaEl  = document.getElementById('fiction-meta');
+  const tagsEl  = document.getElementById('fiction-tags');
+
+  const viewport = document.getElementById('fiction-viewport');
+  const dotsWrap = document.getElementById('fiction-dots');
+  const prevBtn  = document.getElementById('fiction-prev');
+  const nextBtn  = document.getElementById('fiction-next');
+
+  const infoEl   = document.getElementById('fiction-info');
+  const quotesEl = document.getElementById('fiction-quotes');
+
+  const COMMON_IMAGES = [
+    'fiction_img/bookcover.jpg',
+    'fiction_img/bookcover2.jpg'
+  ];
+
+  const fictionData = {
+    dracula: {
+      title: 'Dracula',
+      meta: '브램 스토커 · 1897',
+      tags: ['Vampire','Gothic'],
+      images: COMMON_IMAGES,
+      info:
+`“소중한 것을 잃고 난 후
+그 오랜 세월을
+대체 어떻게 견뎌온 겁니까?”
+
+마노가 이상하다?!
+상냥하고 반짝거리며 이전과는 전혀 달라진 마노.
+카벨은 마노의 목에서 미식가의 흔적을 발견하고 분노한다.
+때마침 도서관에는 방문객과 함께
+쌍둥이 미식가 루카와 루루가 등장하는데!!`,
+      quotes: [
+        '아직 작성하지 않은 명대사입니다.',
+        '이 칸에 정보를 입력할 수 있습니다.'
+      ]
+    },
+    frankenstein: {
+      title: 'Frankenstein',
+      meta: '메리 셸리 · 1818',
+      tags: ['Revenant','Science'],
+      images: COMMON_IMAGES,
+      info:
+`“소중한 것을 잃고 난 후
+그 오랜 세월을
+대체 어떻게 견뎌온 겁니까?”
+
+마노가 이상하다?!
+상냥하고 반짝거리며 이전과는 전혀 달라진 마노.
+카벨은 마노의 목에서 미식가의 흔적을 발견하고 분노한다.
+때마침 도서관에는 방문객과 함께
+쌍둥이 미식가 루카와 루루가 등장하는데!!
+소중한 것을 잃고 난 후
+그 오랜 세월을
+대체 어떻게 견뎌온 겁니까?”
+
+마노가 이상하다?!
+상냥하고 반짝거리며 이전과는 전혀 달라진 마노.
+카벨은 마노의 목에서 미식가의 흔적을 발견하고 분노한다.
+때마침 도서관에는 방문객과 함께
+쌍둥이 미식가 루카와 루루가 등장하는데!!
+소중한 것을 잃고 난 후
+그 오랜 세월을
+대체 어떻게 견뎌온 겁니까?”
+
+마노가 이상하다?!
+상냥하고 반짝거리며 이전과는 전혀 달라진 마노.
+카벨은 마노의 목에서 미식가의 흔적을 발견하고 분노한다.
+때마침 도서관에는 방문객과 함께
+쌍둥이 미식가 루카와 루루가 등장하는데!!`,
+      quotes: [
+        '아직 작성하지 않은 명대사입니다.',
+        '이 칸에 정보를 입력할 수 있습니다.'
+      ]
+    }
+  };
+
+  let idx = 0;
+  let imgs = [];
+
+  function setSlide(i){
+    idx = (i + imgs.length) % imgs.length;
+    viewport.style.transform = `translateX(${-idx * 100}%)`;
+    [...dotsWrap.children].forEach((d, n)=> d.classList.toggle('is-active', n===idx));
+  }
+
+  function buildCarousel(imageList){
+    imgs = imageList && imageList.length ? imageList : COMMON_IMAGES;
+    idx = 0;
+
+    viewport.innerHTML = imgs.map(src =>
+      `<div class="fiction-slide" style="background-image:url('${src.replace(/'/g,"%27")}')"></div>`
+    ).join('');
+
+    dotsWrap.innerHTML = imgs.map((_, n)=>
+      `<button type="button" class="fiction-dot ${n===0?'is-active':''}" aria-label="이미지 ${n+1}"></button>`
+    ).join('');
+
+    [...dotsWrap.children].forEach((btn, n)=>{
+      btn.addEventListener('click', ()=> setSlide(n));
+    });
+
+    setSlide(0);
+  }
+
+  function openFiction(key){
+    const data = fictionData[key];
+    if(!data) return;
+
+    titleEl.textContent = data.title;
+    metaEl.textContent  = data.meta;
+
+    tagsEl.innerHTML = (data.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+
+    infoEl.textContent = data.info || '';
+    quotesEl.innerHTML = (data.quotes || []).map(q => `<li>${q}</li>`).join('');
+
+    buildCarousel(data.images);
+
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFiction(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  // 클릭 연결: sealed-block 제외
+  document.querySelectorAll('.archive-card .archive-list li.fiction-tile').forEach(li=>{
+    li.addEventListener('click', ()=>{
+      openFiction(li.dataset.fiction);
+    });
+    li.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openFiction(li.dataset.fiction);
+      }
+    });
+  });
+
+  prevBtn && prevBtn.addEventListener('click', ()=> setSlide(idx - 1));
+  nextBtn && nextBtn.addEventListener('click', ()=> setSlide(idx + 1));
+
+  backdrop && backdrop.addEventListener('click', closeFiction);
+  closeBtn && closeBtn.addEventListener('click', closeFiction);
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeFiction(); });
+})();
+</script>
+
+
+
+
 
 </body>
 </html>
