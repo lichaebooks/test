@@ -1185,7 +1185,49 @@ transform: none;
 }
 
 
+#video-modal .video-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: rgba(0,0,0,.45);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
 
+#video-modal .video-modal-title{
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.02em;
+  color:#fff;
+  line-height:1.2;
+}
+
+#video-modal .video-close{
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#video-modal .video-close:hover{
+  background: rgba(255,255,255,.12);
+}
+
+#video-modal .video-close:focus{
+  outline:none;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.18);
+}
 
 
 
@@ -1681,7 +1723,7 @@ document.addEventListener("contextmenu", function (e) {
   <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
     <div class="video-shell">
       <div class="video-head">
-        <div class="video-title" id="video-modal-title">RELATED VIDEO</div>
+        <div class="video-modal-title" id="video-modal-title">RELATED VIDEO</div>
         <button class="video-close" id="video-close" type="button" aria-label="닫기">✕</button>
       </div>
       <div class="video-body">
