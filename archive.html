@@ -1361,15 +1361,30 @@ transform: none;
   z-index:1;
 }
 #fiction-modal .fiction-dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.35);
-  background:rgba(255,255,255,.18);
-  cursor:pointer;
+  width: 10px;
+  height: 10px;
+  aspect-ratio: 1 / 1;      /* 완전 원형 고정 */
+  flex: 0 0 10px;           /* 찌그러짐 방지 */
+  padding: 0;
+  border-radius: 999px;
+
+  /* 색감: 모달 톤에 어울리는 청록 포인트 + 은은한 발광 */
+  background: rgba(0,190,255,.18);
+  border: 1px solid rgba(0,190,255,.55);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.50) inset,
+    0 0 8px rgba(0,190,255,.10);
+
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
 #fiction-modal .fiction-dot.is-active{
-  background:rgba(255,255,255,.8);
+  transform: scale(1.25);
+  background: rgba(0,190,255,.95);
+  border-color: rgba(0,190,255,1);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.35) inset,
+    0 0 14px rgba(0,190,255,.35);
 }
 
 #fiction-modal .fiction-nav{
@@ -1402,23 +1417,33 @@ transform: none;
   margin-bottom:12px;
 }
 #fiction-modal .fiction-box-title{
-  font-weight:700;
-  margin-bottom:10px;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .04em;
+  margin-bottom: 12px;
+  color: rgba(255,255,255,.92);
 }
 #fiction-modal .fiction-box-body{
-  white-space:pre-line;
-  opacity:.92;
-  line-height:1.5;
+  white-space: pre-line;
+  font-size: 14.5px;
+  line-height: 1.78;
+  letter-spacing: .01em;
+  color: rgba(255,255,255,.84);
 }
 #fiction-modal .fiction-quotes{
-  margin:0;
-  padding-left:18px;
-  line-height:1.6;
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14.5px;
+  line-height: 1.78;
+  letter-spacing: .01em;
+  color: rgba(255,255,255,.84);
 }
 #fiction-modal .fiction-quotes li{
-  margin:6px 0;
+  margin: 12px 0;
 }
-
+#fiction-modal .fiction-quotes li::marker{
+  color: rgba(0,190,255,.75);
+}
 #fiction-modal .fiction-right::-webkit-scrollbar{
   width: 10px;
 }
@@ -1435,7 +1460,13 @@ border: 1px solid rgba(0,190,255,.45);
   background: rgba(0,190,255,.32);
 }
 
-
+#fiction-modal .fiction-box .fiction-content{
+  font-size: 14px;
+  line-height: 1.75;                 /* 1.6 -> 1.75 */
+  letter-spacing: .01em;             /* 자간 살짝 */
+  color: rgba(255,255,255,.86);      /* 약간 또렷하게 */
+  white-space: pre-line;
+}
 
 
 
