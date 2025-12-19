@@ -260,7 +260,6 @@ radial-gradient(
       border-color: rgba(227, 90, 90, 0.9);
     }
 
-//카드 흔들리게 하는 효과
 .card:nth-child(3n-1):hover { transform: translateY(-6px) rotate(-0.4deg); }
 .card:nth-child(3n):hover   { transform: translateY(-6px) rotate(0.4deg); }
 
@@ -425,7 +424,7 @@ align-items: center;
 
 
  
-//모달 배경에 움직이는 극미세 노이즈 추가
+/* 모달 배경에 움직이는 극미세 노이즈 추가 */
 .modal::before {
   content: "";
   position: fixed;
@@ -596,7 +595,7 @@ height: 100%;
   align-items: flex-start;      /* 텍스트 왼쪽 정렬 */
   gap: 8px;
   min-height: 0;                /* 안쪽 스크롤을 위해 꼭 필요 */
-height: 100%
+height: 100%;
 }
 
 
@@ -629,9 +628,6 @@ height: 100%
       border: 1px solid rgba(227, 90, 90, 0.7);
       color: #ffd8da;
     }
-
-
-오전 6:09 2025-12-12
 
 
 
@@ -720,7 +716,6 @@ margin-bottom: 18px;
 
 
 
-<!-- 부분봉인 -->
 /* ===== 기록 봉인 연출 ===== */
 .sealed {
   position: relative;
@@ -1138,6 +1133,74 @@ transform: none;
 .page-archive .sealed-block *{pointer-events:none}
 
 /* --- PATCH: RELATED VIDEOS thumbnails + video modal + CTA buttons --- */
+
+/* VIDEO MODAL layout fix */
+#video-modal{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+#video-modal.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#video-modal .modal-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+}
+
+#video-modal .modal-panel{
+  position: relative;
+  width: min(92vw, 980px);
+  background: #050c11;
+  border-radius: 18px;
+  border: 1px solid rgba(216,178,106,.55);
+  box-shadow: 0 20px 60px rgba(0,0,0,.75);
+  overflow: hidden;
+}
+
+#video-modal .video-embed{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: rgba(0,0,0,.35);
+}
+
+#video-modal iframe{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+
+
+
+
+
+/* --- FIX: RELATED VIDEOS thumbnail sizing (no crop) --- */
+.page-archive .video-thumb{
+  position: relative;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+}
+/* --- FIX: video modal visibility --- */
+#video-modal.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .video-thumb{
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -1186,50 +1249,9 @@ transform: none;
   border-color:rgba(255,61,141,.36);
 }
 
-/* video modal (separate from monster modal to avoid collisions) */
-#video-modal{ display:none; }
-#video-modal.is-open{ display:block; }
-#video-modal .modal-backdrop{ cursor:pointer; }
-#video-modal .video-shell{
-  width:min(980px, 92vw);
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid rgba(255,61,141,.22);
-  background:rgba(7, 16, 20, .92);
-  box-shadow:0 0 0 1px rgba(255,255,255,.06) inset, 0 20px 60px rgba(0,0,0,.45);
-}
-#video-modal .video-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-#video-modal .video-title{
-  font-weight:800;
-  letter-spacing:.06em;
-  opacity:.92;
-}
-#video-modal .video-close{
-  width:38px;height:38px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  color:rgba(243,239,231,.92);
-  cursor:pointer;
-}
-#video-modal .video-close:hover{ filter:brightness(1.08); }
-#video-modal .video-body{
-  padding:0;
-}
-#video-modal .video-frame{
-  width:100%;
-  aspect-ratio:16/9;
-  border:0;
-  display:block;
-}
-/* --- /PATCH --- */
+
+
+
 
 </style>
 </head>
@@ -1352,8 +1374,8 @@ transform: none;
 
         <a class="video-tile sealed-block" data-seal-label="후원자 전용 링크" href="#" aria-label="봉인된 영상(예시)">
           <div class="video-thumb"></div>
-          <div class="video-title">⟪봉인⟫ 《요정 계약: 함정의 구조》</div>
-          <div class="video-meta">필드 리포트 · 26m</div>
+          <div class="video-title">⟪봉인⟫ 레프리콘과 함께한 여름</div>
+          <div class="video-meta">필드 리포트 · 16m 4s</div>
         </a>
       </div>
 
@@ -1661,7 +1683,17 @@ document.addEventListener("contextmenu", function (e) {
         <button class="video-close" id="video-close" type="button" aria-label="닫기">✕</button>
       </div>
       <div class="video-body">
-        <iframe id="video-frame" class="video-frame" src="" title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe
+  id="video-frame"
+  class="video-frame"
+  src=""
+  title="Related video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+
       </div>
     </div>
   </div>
@@ -1669,24 +1701,53 @@ document.addEventListener("contextmenu", function (e) {
 <!-- /PATCH: Video Modal -->
 
 <script>
-
-/* PATCH: related videos -> modal player */
+/* FIX: related videos -> modal player (stable) */
 (function(){
   const modal = document.getElementById('video-modal');
   if(!modal) return;
+
   const backdrop = document.getElementById('video-backdrop');
   const closeBtn = document.getElementById('video-close');
   const frame = document.getElementById('video-frame');
   const titleEl = document.getElementById('video-modal-title');
 
-  function openVideo(id, title){
-    if(!id) return;
+  function normalizeYouTubeId(raw){
+    if(!raw) return '';
+    let v = String(raw).trim();
+
+    // data-videoid에 URL이 들어가도 ID만 뽑기
+    if (v.includes('youtube.com') || v.includes('youtu.be')) {
+      try{
+        const u = new URL(v);
+        v = u.searchParams.get('v') || u.pathname.split('/').pop() || v;
+      }catch(e){}
+    }
+    // 뒤 파라미터 제거
+    v = v.split('&')[0].split('?')[0];
+    return v;
+  }
+
+  function openVideo(rawId, title){
+    const vid = normalizeYouTubeId(rawId);
+    if(!vid) return;
+
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden','false');
     if(titleEl) titleEl.textContent = title || 'RELATED VIDEO';
-    frame.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+
+    
+const originParam =
+      (location.protocol === 'http:' || location.protocol === 'https:')
+        ? '&origin=' + encodeURIComponent(location.origin)
+        : '';
+
+    frame.src =
+      'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(vid) +
+      '?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1' +
+      originParam;
     document.body.style.overflow = 'hidden';
   }
+
   function closeVideo(){
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden','true');
@@ -1699,18 +1760,19 @@ document.addEventListener("contextmenu", function (e) {
       a.addEventListener('click', (e)=>{ e.preventDefault(); });
       return;
     }
-    const id = a.getAttribute('data-videoid');
     a.addEventListener('click', (e)=>{
       e.preventDefault();
-      openVideo(id, a.querySelector('.video-title')?.textContent?.trim());
+      const id = a.getAttribute('data-videoid');
+      const title = a.querySelector('.video-title')?.textContent?.trim();
+      openVideo(id, title);
     });
   });
 
   backdrop && backdrop.addEventListener('click', closeVideo);
   closeBtn && closeBtn.addEventListener('click', closeVideo);
-  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeVideo(); });
+  window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeVideo(); });
 })();
-
 </script>
+
 </body>
 </html>
