@@ -1269,7 +1269,7 @@ transform: none;
 #fiction-modal .fiction-close{
   position:absolute;
   top:14px;
-  left:14px;
+  right:14px;
   width:34px;
   height:34px;
   border-radius:10px;
@@ -1283,7 +1283,7 @@ transform: none;
 }
 
 #fiction-modal .fiction-head{
-  padding:18px 18px 12px 58px;
+  padding:18px 58px 12px 18px;
   display:flex;
   justify-content:space-between;
   gap:16px;
@@ -1295,16 +1295,19 @@ transform: none;
   letter-spacing:.02em;
 }
 #fiction-modal .fiction-meta{
-  margin-top:4px;
-  opacity:.75;
-  font-size:14px;
+  margin-top:0;
+  opacity:.9;
+  font-size:18px;
+  font-weight:700;
+  text-align:right;
+  white-space:nowrap;
 }
 #fiction-modal .fiction-tags{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
   align-items:flex-start;
-  justify-content:flex-end;
+  justify-content:flex-start;
 }
 #fiction-modal .fiction-tags .tag{
   padding:6px 10px;
@@ -1342,8 +1345,9 @@ transform: none;
 #fiction-modal .fiction-slide{
   min-width:100%;
   height:100%;
-  background-size:cover;
-  background-position:center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #fiction-modal .fiction-dots{
@@ -1423,12 +1427,12 @@ transform: none;
   border-radius: 999px;
 }
 #fiction-modal .fiction-right::-webkit-scrollbar-thumb{
-  background: rgba(0,255,209,.28);
-  border: 1px solid rgba(0,255,209,.35);
+ background: rgba(0,190,255,.22);
+border: 1px solid rgba(0,190,255,.45);
   border-radius: 999px;
 }
 #fiction-modal .fiction-right::-webkit-scrollbar-thumb:hover{
-  background: rgba(0,255,209,.40);
+  background: rgba(0,190,255,.32);
 }
 
 
@@ -1549,30 +1553,30 @@ transform: none;
     
 <section id="archive" class="archive-section">
   <div class="section-title">ARCHIVE</div>
-  <div class="section-sub">오컬트 & 판타지 몬스터가 출몰하는 소설 · 영화 · 영상 기록 아카이브</div>
+  <div class="section-sub">오컬트 & 판타지 몬스터가 등장하는 소설 · 영화 · 영상 기록 아카이브</div>
 
   <div class="archive-grid">
     <article class="archive-card">
       <h3 class="archive-h">MONSTER FICTION</h3>
-      <p class="archive-desc">몬스터 원형과 현대 변주를 함께 보는 ‘참조용 기록’입니다.</p>
+      <p class="archive-desc">추천 소설/드라마/영화를 클릭하면 상세 정보를 확인할 수 있습니다.</p>
 
       <ul class="archive-list">
         <li class="fiction-tile" data-fiction="dracula" role="button" tabindex="0" aria-label="Dracula 상세 보기">
 
           <div class="archive-item">
-            <div class="archive-name">Dracula</div>
+            <div class="archive-name">드라큘라 (Dracula)</div>
             <div class="archive-meta">브램 스토커 · 1897</div>
           </div>
-          <div class="archive-tags"><span class="card-tag">Vampire</span><span class="card-tag">Gothic</span></div>
+          <div class="archive-tags"><span class="card-tag">고딕 호러</span><span class="card-tag">서간체(일기·편지)</span> <span class="card-tag">빅토리아 시대</span> <span class="card-tag">흡혈귀</span> <span class="card-tag">금기와 욕망</span> </div>
         </li>
 
-        <li class="fiction-tile" data-fiction="frankenstein" role="button" tabindex="0" aria-label="Frankenstein 상세 보기">
+        <li class="fiction-tile" data-fiction="interview" role="button" tabindex="0" aria-label="interview 상세 보기">
 
           <div class="archive-item">
-            <div class="archive-name">Frankenstein</div>
-            <div class="archive-meta">메리 셸리 · 1818</div>
+            <div class="archive-name">뱀파이어와의 인터뷰 (Interview with the Vampire)</div>
+            <div class="archive-meta">닐 조던 · 1994</div>
           </div>
-          <div class="archive-tags"><span class="card-tag">Revenant</span><span class="card-tag">Science</span></div>
+          <div class="archive-tags"><span class="card-tag">고딕</span><span class="card-tag">불멸</span><span class="card-tag">시대극</span> <span class="card-tag">아름다움과 혐오</span></div>
         </li>
 
         <li class="sealed-block" data-seal-label="후원자 전용 기록">
@@ -1602,7 +1606,7 @@ transform: none;
 
     <article class="archive-card">
       <h3 class="archive-h">RELATED VIDEOS</h3>
-      <p class="archive-desc">연구·해설·분석 영상 큐레이션. 링크는 예시이며, 실제 목록은 계속 확장됩니다.</p>
+      <p class="archive-desc">연구·해설·분석 영상 큐레이션. 영상 목록은 계속 업데이트됩니다.</p>
 
       <div class="video-grid">
         <a data-videoid="lsPRWCM5tnk" class="video-tile" href="https://www.youtube.com/watch?v=lsPRWCM5tnk" aria-label="영상 링크(예시)">
@@ -1964,12 +1968,14 @@ document.addEventListener("contextmenu", function (e) {
     <button class="fiction-close" id="fiction-close" type="button" aria-label="모달 닫기">×</button>
 
     <div class="fiction-head">
-      <div class="fiction-head-left">
-        <div class="fiction-title" id="fiction-title">TITLE</div>
-        <div class="fiction-meta" id="fiction-meta">AUTHOR · YEAR</div>
-      </div>
-      <div class="fiction-tags" id="fiction-tags"></div>
-    </div>
+  <div class="fiction-head-left">
+    <div class="fiction-title" id="fiction-title">TITLE</div>
+    <div class="fiction-tags" id="fiction-tags"></div>
+  </div>
+
+  <div class="fiction-meta" id="fiction-meta">AUTHOR · YEAR</div>
+</div>
+
 
     <div class="fiction-body">
       <div class="fiction-left">
@@ -2099,68 +2105,38 @@ const originParam =
   const infoEl   = document.getElementById('fiction-info');
   const quotesEl = document.getElementById('fiction-quotes');
 
-  const COMMON_IMAGES = [
-    'fiction_img/bookcover.jpg',
-    'fiction_img/bookcover2.jpg'
-  ];
+  
 
   const fictionData = {
     dracula: {
-      title: 'Dracula',
+      title: '드라큘라 (Dracula)',
       meta: '브램 스토커 · 1897',
-      tags: ['Vampire','Gothic'],
-      images: COMMON_IMAGES,
+      tags: ['고딕 호러','서간체(일기·편지)', '빅토리아 시대', '흡혈귀', '금기와 욕망'],
+      images: ['fiction_img/dracula_01.jpg',
+  'fiction_img/dracula_02.jpg',
+  'fiction_img/dracula_03.jpg'],
       info:
-`“소중한 것을 잃고 난 후
-그 오랜 세월을
-대체 어떻게 견뎌온 겁니까?”
+`이해를 돕는 예시 내용으로, 수정 및 업데이트 될 수 있습니다.
 
-마노가 이상하다?!
-상냥하고 반짝거리며 이전과는 전혀 달라진 마노.
-카벨은 마노의 목에서 미식가의 흔적을 발견하고 분노한다.
-때마침 도서관에는 방문객과 함께
-쌍둥이 미식가 루카와 루루가 등장하는데!!`,
+영국의 변호사 조너선 하커가 트란실바니아의 귀족 ‘드라큘라 백작’과 계약 업무를 위해 성으로 향하면서 시작됩니다. 하커는 성에서 백작의 정체를 ‘흡혈귀’로 확신하게 되고 탈출하지만, 드라큘라는 영국으로 건너가 사람들의 삶을 잠식합니다. 반 헬싱을 중심으로 한 추적자들이 드라큘라의 흔적을 좇으며, “외부에서 침투해 일상을 망가뜨리는 공포”와 “기록(일기/편지/신문)을 통해 진실이 조각조각 드러나는 구조”가 핵심 재미입니다.
+`,
       quotes: [
-        '아직 작성하지 않은 명대사입니다.',
-        '이 칸에 정보를 입력할 수 있습니다.'
+        'Listen to them—the children of the night. What music they make!',
+        'We learn from failure, not from success!'
       ]
     },
-    frankenstein: {
-      title: 'Frankenstein',
-      meta: '메리 셸리 · 1818',
-      tags: ['Revenant','Science'],
-      images: COMMON_IMAGES,
+    interview: {
+      title: '뱀파이어와의 인터뷰 (Interview with the Vampire)',
+      meta: '닐 조던 · 1994',
+      tags: ['고딕','불멸','시대극','아름다움과 혐오'],
+      images: ['fiction_img/interview_01.jpg','fiction_img/interview_02.jpg'],
       info:
-`“소중한 것을 잃고 난 후
-그 오랜 세월을
-대체 어떻게 견뎌온 겁니까?”
+`이해를 돕는 예시 내용으로, 수정 및 업데이트 될 수 있습니다.
 
-마노가 이상하다?!
-상냥하고 반짝거리며 이전과는 전혀 달라진 마노.
-카벨은 마노의 목에서 미식가의 흔적을 발견하고 분노한다.
-때마침 도서관에는 방문객과 함께
-쌍둥이 미식가 루카와 루루가 등장하는데!!
-소중한 것을 잃고 난 후
-그 오랜 세월을
-대체 어떻게 견뎌온 겁니까?”
-
-마노가 이상하다?!
-상냥하고 반짝거리며 이전과는 전혀 달라진 마노.
-카벨은 마노의 목에서 미식가의 흔적을 발견하고 분노한다.
-때마침 도서관에는 방문객과 함께
-쌍둥이 미식가 루카와 루루가 등장하는데!!
-소중한 것을 잃고 난 후
-그 오랜 세월을
-대체 어떻게 견뎌온 겁니까?”
-
-마노가 이상하다?!
-상냥하고 반짝거리며 이전과는 전혀 달라진 마노.
-카벨은 마노의 목에서 미식가의 흔적을 발견하고 분노한다.
-때마침 도서관에는 방문객과 함께
-쌍둥이 미식가 루카와 루루가 등장하는데!!`,
+인간이었던 ‘루이’가 ‘레스타트’에게 흡혈귀로 변하며, 끝나지 않는 세월 속에서 욕망·죄책감·사랑(혹은 집착)이 뒤엉킨 관계를 살아갑니다. “흡혈귀가 인간을 어떻게 바라보는가”보다 “불멸이 관계를 어떻게 망가뜨리는가/왜곡하는가”에 초점이 있고, 화려한 고딕 미장센과 감정선이 강한 작품입니다.`,
       quotes: [
-        '아직 작성하지 않은 명대사입니다.',
-        '이 칸에 정보를 입력할 수 있습니다.'
+        'Evil is a point of view.',
+        'The world changes, we do not, therein lies the irony that finally kills us.'
       ]
     }
   };
